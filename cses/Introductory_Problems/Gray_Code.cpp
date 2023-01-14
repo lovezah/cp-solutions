@@ -20,7 +20,7 @@
 #define ins insert
 #define lb lower_bound
 #define ub upper_bound
-    
+
 using ll = int64_t;
 using db = double;
 using str = std::string;
@@ -51,26 +51,26 @@ template<class T> bool ckmin(T &u, T v) { return v < u ? u = v, true : false; }
 #define each(a, b, v) for (auto &&[a, b] : v)
 
 void flip(char &x) {
-	if (x == '0') x = '1';
-	else x = '0';
+    if (x == '0') x = '1';
+    else x = '0';
 }
 int main() {
     using namespace std;
     cin.tie(nullptr)->sync_with_stdio(false);
 
-	int N; cin >> N;
-	string a = string(N, '0');
-	F0R(i, mask(N)) {
-		cout << a << '\n';
-		if (i & 1) {
-			F0Rd(j, N) if (a[j] == '1' && j) { 
-				flip(a[j-1]); 
-				break;
-			}
-		} else {
-			flip(a[N-1]);
-		}
-	}
+    int N; cin >> N;
+    string a = string(N, '0');
+    F0R(i, mask(N)) {
+        cout << a << '\n';
+        if (i & 1) {
+            F0Rd(j, N) if (a[j] == '1' && j) { 
+                flip(a[j-1]); 
+                break;
+            }
+        } else {
+            flip(a[N-1]);
+        }
+    }
     return 0;
 }
 

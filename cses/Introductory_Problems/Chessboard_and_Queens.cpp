@@ -20,7 +20,7 @@
 #define ins insert
 #define lb lower_bound
 #define ub upper_bound
-    
+
 using ll = int64_t;
 using db = double;
 using str = std::string;
@@ -53,27 +53,27 @@ template<class T> bool ckmin(T &u, T v) { return v < u ? u = v, true : false; }
 const int M = 8;
 int col[M], row[M], dig[M+M], undig[M+M];
 void dfs(VS &G, int i, int &ans) {
-	if (i == M) {
-		ans++;
-		return;
-	}
-	F0R(j, M) {
-		if (G[i][j] == '*') continue;
-		if (col[j] || row[i] || undig[i+j] || dig[M+i-j]) continue;
-		col[j] = row[i] = undig[i+j] = dig[M+i-j] = 1;
-		dfs(G, i+1, ans);
-		col[j] = row[i] = undig[i+j] = dig[M+i-j] = 0;
-	}
+    if (i == M) {
+        ans++;
+        return;
+    }
+    F0R(j, M) {
+        if (G[i][j] == '*') continue;
+        if (col[j] || row[i] || undig[i+j] || dig[M+i-j]) continue;
+        col[j] = row[i] = undig[i+j] = dig[M+i-j] = 1;
+        dfs(G, i+1, ans);
+        col[j] = row[i] = undig[i+j] = dig[M+i-j] = 0;
+    }
 }
 
 int main() {
     using namespace std;
     cin.tie(nullptr)->sync_with_stdio(false);
 
-	VS G(M); trav(g, G) cin >> g;
-	int ans = 0;
-	dfs(G, 0, ans);
-	cout << ans << '\n';
+    VS G(M); trav(g, G) cin >> g;
+    int ans = 0;
+    dfs(G, 0, ans);
+    cout << ans << '\n';
     return 0;
 }
 

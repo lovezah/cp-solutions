@@ -20,7 +20,7 @@
 #define ins insert
 #define lb lower_bound
 #define ub upper_bound
-    
+
 using ll = int64_t;
 using db = double;
 using str = std::string;
@@ -54,26 +54,26 @@ int main() {
     using namespace std;
     cin.tie(nullptr)->sync_with_stdio(false);
 
-	int Q; cin >> Q;
-	rep(Q) {
-		ll K; cin >> K;
-		K--;
-		int len = 1; 
-		ll st = 1;
-		while (true) {
-			ll num = (st * 9) * len;
-			if (K < num) {
-				ll w = K / len;
-				cout << to_string(st + w)[K % len] << '\n';
-				break;
-			} else {
-				K -= num;
-				st *= 10;
-				len++;
-			}
-		}
-	}
-    
+    int Q; cin >> Q;
+    rep(Q) {
+        ll K; cin >> K;
+        K--;
+        int len = 1; 
+        ll st = 1;
+        while (true) {
+            ll num = (st * 9) * len;
+            if (K < num) {
+                ll w = K / len;
+                cout << to_string(st + w)[K % len] << '\n';
+                break;
+            } else {
+                K -= num;
+                st *= 10;
+                len++;
+            }
+        }
+    }
+
     return 0;
 }
 

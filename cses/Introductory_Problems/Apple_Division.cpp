@@ -20,7 +20,7 @@
 #define ins insert
 #define lb lower_bound
 #define ub upper_bound
-    
+
 using ll = int64_t;
 using db = double;
 using str = std::string;
@@ -53,22 +53,22 @@ template<class T> bool ckmin(T &u, T v) { return v < u ? u = v, true : false; }
 int main() {
     using namespace std;
     cin.tie(nullptr)->sync_with_stdio(false);
-	
-	const ll INF = ll(4e18) + 11;
 
-	int N; cin >> N;
-	VI A(N); trav(a, A) cin >> a;
+    const ll INF = ll(4e18) + 11;
 
-	ll ans = INF;
-	F0R(i, mask(N)) {
-		ll a = 0, b = 0;
-		F0R(j, N) {
-			if (i >> j & 1) a += A[j];
-			else b += A[j];
-		}
-		ckmin(ans, abs(a-b));
-	}
-	cout << ans << '\n';
+    int N; cin >> N;
+    VI A(N); trav(a, A) cin >> a;
+
+    ll ans = INF;
+    F0R(i, mask(N)) {
+        ll a = 0, b = 0;
+        F0R(j, N) {
+            if (i >> j & 1) a += A[j];
+            else b += A[j];
+        }
+        ckmin(ans, abs(a-b));
+    }
+    cout << ans << '\n';
     return 0;
 }
 

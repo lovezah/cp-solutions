@@ -20,7 +20,7 @@
 #define ins insert
 #define lb lower_bound
 #define ub upper_bound
-    
+
 using ll = int64_t;
 using db = double;
 using str = std::string;
@@ -53,19 +53,19 @@ template<class T> bool ckmin(T &u, T v) { return v < u ? u = v, true : false; }
 int main() {
     using namespace std;
     cin.tie(nullptr)->sync_with_stdio(false);
-    
-	int n; cin >> n;
-	VI A(n+1);
-	F0R(i, n-1) {
-		int x; cin >> x;
-		A[x] = 1;
-	}
-	FOR(i, 1, n+1) {
-		if (!A[i]) {
-			cout << i << '\n';
-			exit(0);
-		}
-	}
+
+    int n; cin >> n;
+    VI A(n+1);
+    F0R(i, n-1) {
+        int x; cin >> x;
+        A[x] = 1;
+    }
+    FOR(i, 1, n+1) {
+        if (!A[i]) {
+            cout << i << '\n';
+            exit(0);
+        }
+    }
     return 0;
 }
 

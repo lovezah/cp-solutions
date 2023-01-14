@@ -20,7 +20,7 @@
 #define ins insert
 #define lb lower_bound
 #define ub upper_bound
-    
+
 using ll = int64_t;
 using db = double;
 using str = std::string;
@@ -54,16 +54,16 @@ int main() {
     using namespace std;
     cin.tie(nullptr)->sync_with_stdio(false);
 
-	string S; cin >> S;
-	sort(ALL(S));
+    string S; cin >> S;
+    sort(ALL(S));
 
-	VS ans;
-	do {
-		ans.pb(S);
-	} while (next_permutation(ALL(S)));
+    VS ans;
+    do {
+        ans.pb(S);
+    } while (next_permutation(ALL(S)));
 
-	cout << SZ(ans) << '\n';
-	trav(s, ans) cout << s << '\n';
+    cout << SZ(ans) << '\n';
+    trav(s, ans) cout << s << '\n';
     return 0;
 }
 

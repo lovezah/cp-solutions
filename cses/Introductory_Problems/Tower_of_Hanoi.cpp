@@ -20,7 +20,7 @@
 #define ins insert
 #define lb lower_bound
 #define ub upper_bound
-    
+
 using ll = int64_t;
 using db = double;
 using str = std::string;
@@ -51,26 +51,26 @@ template<class T> bool ckmin(T &u, T v) { return v < u ? u = v, true : false; }
 #define each(a, b, v) for (auto &&[a, b] : v)
 
 void dfs(int n, int from, int buffer, int to, VP& v) {
-	if (n == 1) {
-		v.pb({from, to});
-	} else {
-		dfs(n-1, from, to, buffer, v);
-		dfs(1, from, buffer, to, v);
-		dfs(n-1, buffer, from, to, v);
-	}
+    if (n == 1) {
+        v.pb({from, to});
+    } else {
+        dfs(n-1, from, to, buffer, v);
+        dfs(1, from, buffer, to, v);
+        dfs(n-1, buffer, from, to, v);
+    }
 }
 int main() {
     using namespace std;
     cin.tie(nullptr)->sync_with_stdio(false);
 
-	int N; cin >> N;
-	VP ans;
-	dfs(N, 1, 2, 3, ans);
-	cout << SZ(ans) << '\n';
-	each(x, y, ans) {
-		cout << x << ' ' << y << '\n';
-	}
-    
+    int N; cin >> N;
+    VP ans;
+    dfs(N, 1, 2, 3, ans);
+    cout << SZ(ans) << '\n';
+    each(x, y, ans) {
+        cout << x << ' ' << y << '\n';
+    }
+
     return 0;
 }
 

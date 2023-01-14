@@ -20,7 +20,7 @@
 #define ins insert
 #define lb lower_bound
 #define ub upper_bound
-    
+
 using ll = int64_t;
 using db = double;
 using str = std::string;
@@ -54,17 +54,17 @@ int main() {
     using namespace std;
     cin.tie(nullptr)->sync_with_stdio(false);
 
-	const int mod = int(1e9) + 7;
+    const int mod = int(1e9) + 7;
 
-	int N; cin >> N;
-	ll ans = 1, a = 2;
-	while (N) {
-		if (N & 1) ans = ans * a % mod;
-		N >>= 1;
-		a = a * a % mod;
-	}
-	cout << ans << '\n';
-    
+    int N; cin >> N;
+    ll ans = 1, a = 2;
+    while (N) {
+        if (N & 1) ans = ans * a % mod;
+        N >>= 1;
+        a = a * a % mod;
+    }
+    cout << ans << '\n';
+
     return 0;
 }
 

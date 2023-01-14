@@ -20,7 +20,7 @@
 #define ins insert
 #define lb lower_bound
 #define ub upper_bound
-    
+
 using ll = int64_t;
 using db = double;
 using str = std::string;
@@ -54,16 +54,16 @@ int main() {
     using namespace std;
     cin.tie(nullptr)->sync_with_stdio(false);
 
-	int N; cin >> N;
-	int lst = 0;
-	ll ans = 0;
-	F0R(i, N) {
-		int x; cin >> x;
-		if (!i) { lst = x; }
-		else if (x < lst) { ans += lst - x; }
-		else { lst = x; }
-	}
-	cout << ans;
+    int N; cin >> N;
+    int lst = 0;
+    ll ans = 0;
+    F0R(i, N) {
+        int x; cin >> x;
+        if (!i) { lst = x; }
+        else if (x < lst) { ans += lst - x; }
+        else { lst = x; }
+    }
+    cout << ans;
     return 0;
 }
 

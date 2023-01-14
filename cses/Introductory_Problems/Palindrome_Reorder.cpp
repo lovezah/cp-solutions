@@ -20,7 +20,7 @@
 #define ins insert
 #define lb lower_bound
 #define ub upper_bound
-    
+
 using ll = int64_t;
 using db = double;
 using str = std::string;
@@ -54,31 +54,31 @@ int main() {
     using namespace std;
     cin.tie(nullptr)->sync_with_stdio(false);
 
-	string S; cin >> S;
-	VI cnt(26, 0);
-	trav(s, S) {
-		cnt[s-'A']++;
-	}
-	int ok = 0;
-	F0R(i, 26) {
-		if (cnt[i] % 2 == 1) ok++;
-	}
-	if (ok >= 2) {
-		cout << "NO SOLUTION\n";
-	} else {
-		string l, r, m;
-		F0R(i, 26) {
-			if (cnt[i] & 1) {
-				m = string(cnt[i], char(i+'A'));
-			} else if (cnt[i]) {
-				l += string(cnt[i]/2, char(i+'A'));
-				r += string(cnt[i]/2, char(i+'A'));
-			}
-		}
-		REV(r);
-		if (SZ(m)) cout << l + m + r << '\n';
-		else cout << l + r << '\n';
-	}
+    string S; cin >> S;
+    VI cnt(26, 0);
+    trav(s, S) {
+        cnt[s-'A']++;
+    }
+    int ok = 0;
+    F0R(i, 26) {
+        if (cnt[i] % 2 == 1) ok++;
+    }
+    if (ok >= 2) {
+        cout << "NO SOLUTION\n";
+    } else {
+        string l, r, m;
+        F0R(i, 26) {
+            if (cnt[i] & 1) {
+                m = string(cnt[i], char(i+'A'));
+            } else if (cnt[i]) {
+                l += string(cnt[i]/2, char(i+'A'));
+                r += string(cnt[i]/2, char(i+'A'));
+            }
+        }
+        REV(r);
+        if (SZ(m)) cout << l + m + r << '\n';
+        else cout << l + r << '\n';
+    }
     return 0;
 }
 

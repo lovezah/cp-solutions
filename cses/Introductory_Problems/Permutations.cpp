@@ -20,7 +20,7 @@
 #define ins insert
 #define lb lower_bound
 #define ub upper_bound
-    
+
 using ll = int64_t;
 using db = double;
 using str = std::string;
@@ -54,17 +54,17 @@ int main() {
     using namespace std;
     cin.tie(nullptr)->sync_with_stdio(false);
 
-	int N; cin >> N;
-	if (N == 2 || N == 3) {
-		cout << "NO SOLUTION\n";
-	} else {
-		VI ans;
-		for (int i = 2; i <= N; i += 2) ans.pb(i);
-		for (int i = 1; i <= N; i += 2) ans.pb(i);
-		REV(ans);
-		trav(a, ans) cout << a << ' ';
-		cout << '\n';
-	}
+    int N; cin >> N;
+    if (N == 2 || N == 3) {
+        cout << "NO SOLUTION\n";
+    } else {
+        VI ans;
+        for (int i = 2; i <= N; i += 2) ans.pb(i);
+        for (int i = 1; i <= N; i += 2) ans.pb(i);
+        REV(ans);
+        trav(a, ans) cout << a << ' ';
+        cout << '\n';
+    }
     return 0;
 }
 

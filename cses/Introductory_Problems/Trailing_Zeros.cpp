@@ -20,7 +20,7 @@
 #define ins insert
 #define lb lower_bound
 #define ub upper_bound
-    
+
 using ll = int64_t;
 using db = double;
 using str = std::string;
@@ -54,23 +54,23 @@ int main() {
     using namespace std;
     cin.tie(nullptr)->sync_with_stdio(false);
 
-	int N; cin >> N;
-	ll two = 0, five = 0;
-	ll b = 2;
-	while (true) {
-		ll z = N / b;
-		if (!z) break;
-		two += z;
-		b *= 2;
-	}
-	b = 5;
-	while (true) {
-		ll z = N / b;
-		if (!z) break;
-		five += z;
-		b *= 5;
-	}
-	cout << min(two, five) << '\n';
+    int N; cin >> N;
+    ll two = 0, five = 0;
+    ll b = 2;
+    while (true) {
+        ll z = N / b;
+        if (!z) break;
+        two += z;
+        b *= 2;
+    }
+    b = 5;
+    while (true) {
+        ll z = N / b;
+        if (!z) break;
+        five += z;
+        b *= 5;
+    }
+    cout << min(two, five) << '\n';
     return 0;
 }
 

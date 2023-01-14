@@ -20,7 +20,7 @@
 #define ins insert
 #define lb lower_bound
 #define ub upper_bound
-    
+
 using ll = int64_t;
 using db = double;
 using str = std::string;
@@ -54,14 +54,14 @@ int main() {
     using namespace std;
     cin.tie(nullptr)->sync_with_stdio(false);
 
-	int tt; cin >> tt;
-	while (tt--) {
-		int a, b; cin >> a >> b;
-		int ok = 2 * a - b >= 0;
-		ok &= 2 * b - a >= 0;
-		ok &= ((a + b) % 3 == 0);
-		cout << (ok ? "YES\n" : "NO\n") << '\n';
-	}
+    int tt; cin >> tt;
+    while (tt--) {
+        int a, b; cin >> a >> b;
+        int ok = 2 * a - b >= 0;
+        ok &= 2 * b - a >= 0;
+        ok &= ((a + b) % 3 == 0);
+        cout << (ok ? "YES\n" : "NO\n") << '\n';
+    }
     return 0;
 }
 

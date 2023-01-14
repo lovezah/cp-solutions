@@ -20,7 +20,7 @@
 #define ins insert
 #define lb lower_bound
 #define ub upper_bound
-    
+
 using ll = int64_t;
 using db = double;
 using str = std::string;
@@ -53,28 +53,28 @@ template<class T> bool ckmin(T &u, T v) { return v < u ? u = v, true : false; }
 int main() {
     using namespace std;
     cin.tie(nullptr)->sync_with_stdio(false);
-    
-	int N; cin >> N;
-	ll s = ll(N) * (N+1) / 2;
-	if (s & 1) {
-		cout << "NO\n";
-	} else {
-		cout << "YES\n";
-		s /= 2;
-		VI A, B;
-		FORd(i, 1, N+1) {
-			if (s >= i) {
-				s -= i;
-				A.pb(i);
-			} else {
-				B.pb(i);
-			}
-		}
-		cout << SZ(A) << '\n';
-		trav(a, A) cout << a << ' ';
-		cout << '\n' << SZ(B) << '\n';
-		trav(b, B) cout << b << ' ';
-	}
+
+    int N; cin >> N;
+    ll s = ll(N) * (N+1) / 2;
+    if (s & 1) {
+        cout << "NO\n";
+    } else {
+        cout << "YES\n";
+        s /= 2;
+        VI A, B;
+        FORd(i, 1, N+1) {
+            if (s >= i) {
+                s -= i;
+                A.pb(i);
+            } else {
+                B.pb(i);
+            }
+        }
+        cout << SZ(A) << '\n';
+        trav(a, A) cout << a << ' ';
+        cout << '\n' << SZ(B) << '\n';
+        trav(b, B) cout << b << ' ';
+    }
     return 0;
 }
 
