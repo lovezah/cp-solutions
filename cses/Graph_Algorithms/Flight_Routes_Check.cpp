@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-namespace zah233 {
+namespace zah339 {
 #ifdef LOCAL
 #include "E:\cp-Library\debug.h"
 #else
@@ -15,8 +15,6 @@ namespace zah233 {
 #define mask(x) (1 << (x))
 #define fi first
 #define se second
-#define ft front()
-#define bk back()
 #define pb push_back
 #define eb emplace_back 
 #define mp make_pair
@@ -55,37 +53,64 @@ template<class T> bool ckmin(T &u, T v) { return v < u ? u = v, true : false; }
 #define trav(a, v) for (auto &a : v)
 #define each(a, b, v) for (auto &&[a, b] : v)
 #define each3(a, b, c, v) for (auto &&[a, b, c] : v)
-} // namespace zah233
-using namespace zah233;
+} // namespace zah339
+using namespace zah339;
 
-const int N = 200010;
-int n, k, a[N];
-int ok(ll m) {
-    int c = 1;
-    ll cur = 0;
-    F0R(i, n) {
-        if (a[i] > m) return 0;
-        if (cur + a[i] <= m) {
-            cur += a[i];
-        } else {
-            cur = 0;
-            c++;
-            i--;
-        }
+const int N = 100010;
+int n, m, cnt;
+VI adj[N];
+int bel[N], low[N], dfn[N], ck = 0, in[N];
+VI stk;
+V<VI> scc;
+void dfs(int u) {
+    low[u] = dfn[u] = ++ck;
+    in[u] = 1;
+    stk.pb(u);
+    trav(v, adj[u]) {
+        if (!dfn[v]) {
+            dfs(v);
+            ckmin(low[u], low[v]);
+        } else if (in[v]) ckmin(low[u], dfn[v]);
     }
-    return c <= k;
+    if (low[u] == dfn[u]) {
+        VI res;
+        ++cnt;
+        while (true) {
+            int x = stk.back(); stk.pop_back();
+            in[x] = 0;
+            bel[x] = cnt;
+            res.pb(x);
+            if (x == u) break;
+        }
+        scc.pb(res);
+    }
 }
 int main() {
     cin.tie(nullptr)->sync_with_stdio(false);
 
-    cin >> n >> k;
-    F0R(i, n) cin >> a[i];
-    ll lo = 1, hi = 1e15;
-    while (lo < hi) {
-        ll mi = (lo+hi)/2;
-        if (ok(mi)) hi = mi;
-        else lo = mi+1;
+    cin >> n >> m;
+    rep(m) {
+        int a, b; cin >> a >> b;
+        adj[a].pb(b);
     }
-    cout << lo << '\n';
+    F0R(i, n) bel[i] = -1;
+    F0R(i, n) if (bel[i] < 0) {
+        dfs(i);
+    }
+    F0R(i, n) {
+        cout << bel[i] << " \n"[i+1==n];
+    }
+    if (SZ(scc) == 1) {
+        cout << "YES\n";
+    } else {
+        cout << "NO\n";
+        FOR(i, 1, n) {
+            if (bel[i] != bel[0]) {
+                cout << i+1 << ' ' << 1 << '\n';
+                exit(0);
+            }
+        }
+    }
     return 0;
 }
+

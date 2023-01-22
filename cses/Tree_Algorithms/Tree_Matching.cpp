@@ -11,7 +11,7 @@ namespace zah233 {
 #define RALL(x) (x).rbegin(), (x).rend()
 #define SZ(x) (int((x).size()))
 #define REV(x) reverse(ALL(x))
-#define	UNIQUE(x) sort(ALL(x)), x.erase(unique(ALL(x)), x.end())
+#define UNIQUE(x) sort(ALL(x)), x.erase(unique(ALL(x)), x.end())
 #define mask(x) (1 << (x))
 #define fi first
 #define se second
@@ -59,33 +59,34 @@ template<class T> bool ckmin(T &u, T v) { return v < u ? u = v, true : false; }
 using namespace zah233;
 
 const int N = 200010;
-int n, k, a[N];
-int ok(ll m) {
-    int c = 1;
-    ll cur = 0;
-    F0R(i, n) {
-        if (a[i] > m) return 0;
-        if (cur + a[i] <= m) {
-            cur += a[i];
-        } else {
-            cur = 0;
-            c++;
-            i--;
-        }
+int n;
+int f[N], g[N];
+VI adj[N];
+
+void dfs(int u, int p=-1) {
+    int s = 0;
+    VPI h;
+    trav(v, adj[u]) if (v != p) {
+        dfs(v, u);
+        g[u] += max(f[v], g[v]);
+        h.eb(max(f[v], g[v]), g[v]);
     }
-    return c <= k;
+    each(mi, ad, h) {
+        ckmax(f[u], g[u]-mi+ad+1);
+    }
 }
 int main() {
     cin.tie(nullptr)->sync_with_stdio(false);
 
-    cin >> n >> k;
-    F0R(i, n) cin >> a[i];
-    ll lo = 1, hi = 1e15;
-    while (lo < hi) {
-        ll mi = (lo+hi)/2;
-        if (ok(mi)) hi = mi;
-        else lo = mi+1;
+    cin >> n;
+    rep(n-1) {
+        int a, b; cin >> a >> b;
+        a--, b--;
+        adj[a].pb(b);
+        adj[b].pb(a);
     }
-    cout << lo << '\n';
+    dfs(0);
+    cout << max(f[0], g[0]) << '\n';
     return 0;
 }
+

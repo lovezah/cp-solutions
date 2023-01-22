@@ -11,7 +11,7 @@ namespace zah233 {
 #define RALL(x) (x).rbegin(), (x).rend()
 #define SZ(x) (int((x).size()))
 #define REV(x) reverse(ALL(x))
-#define	UNIQUE(x) sort(ALL(x)), x.erase(unique(ALL(x)), x.end())
+#define UNIQUE(x) sort(ALL(x)), x.erase(unique(ALL(x)), x.end())
 #define mask(x) (1 << (x))
 #define fi first
 #define se second
@@ -55,37 +55,20 @@ template<class T> bool ckmin(T &u, T v) { return v < u ? u = v, true : false; }
 #define trav(a, v) for (auto &a : v)
 #define each(a, b, v) for (auto &&[a, b] : v)
 #define each3(a, b, c, v) for (auto &&[a, b, c] : v)
+
+const char nl = '\n';
+const int mod1 = int(1e9)+7;
+const int mod9 = 998244353;
 } // namespace zah233
 using namespace zah233;
 
-const int N = 200010;
-int n, k, a[N];
-int ok(ll m) {
-    int c = 1;
-    ll cur = 0;
-    F0R(i, n) {
-        if (a[i] > m) return 0;
-        if (cur + a[i] <= m) {
-            cur += a[i];
-        } else {
-            cur = 0;
-            c++;
-            i--;
-        }
-    }
-    return c <= k;
-}
 int main() {
     cin.tie(nullptr)->sync_with_stdio(false);
 
-    cin >> n >> k;
-    F0R(i, n) cin >> a[i];
-    ll lo = 1, hi = 1e15;
-    while (lo < hi) {
-        ll mi = (lo+hi)/2;
-        if (ok(mi)) hi = mi;
-        else lo = mi+1;
-    }
-    cout << lo << '\n';
+    cin >> n;
+    cin >> s;
+
+    
     return 0;
 }
+

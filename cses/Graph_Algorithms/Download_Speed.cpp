@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-namespace zah233 {
+namespace zah339 {
 #ifdef LOCAL
 #include "E:\cp-Library\debug.h"
 #else
@@ -15,8 +15,6 @@ namespace zah233 {
 #define mask(x) (1 << (x))
 #define fi first
 #define se second
-#define ft front()
-#define bk back()
 #define pb push_back
 #define eb emplace_back 
 #define mp make_pair
@@ -55,37 +53,80 @@ template<class T> bool ckmin(T &u, T v) { return v < u ? u = v, true : false; }
 #define trav(a, v) for (auto &a : v)
 #define each(a, b, v) for (auto &&[a, b] : v)
 #define each3(a, b, c, v) for (auto &&[a, b, c] : v)
-} // namespace zah233
-using namespace zah233;
+} // namespace zah339
+using namespace zah339;
 
-const int N = 200010;
-int n, k, a[N];
-int ok(ll m) {
-    int c = 1;
-    ll cur = 0;
-    F0R(i, n) {
-        if (a[i] > m) return 0;
-        if (cur + a[i] <= m) {
-            cur += a[i];
-        } else {
-            cur = 0;
-            c++;
-            i--;
+struct edge {
+    int to;
+    ll cap;
+    edge (int to, ll cap) : to(to), cap(cap) {}
+};
+V<edge> e;
+VI g[510];
+VI lev, ptr;
+int n, m;
+void ae(int a, int b, ll c) {
+    g[a].pb(SZ(e));
+    e.eb(b, c);
+    g[b].pb(SZ(e));
+    e.eb(a, 0);
+}
+bool bfs(int s, int t) {
+    lev.assign(n+2, -1);
+    lev[s] = 0;
+    VI que = {s};
+    F0R(z, SZ(que)) {
+        int u = que[z];
+        for (int i = 0; i < SZ(g[u]); i++) {
+            const int j = g[u][i];
+            auto [v, c] = e[j];
+            if (lev[v] == -1 && c > 0) {
+                lev[v] = lev[u] + 1;
+                if (v == t) return true;
+                que.pb(v);
+            }
         }
     }
-    return c <= k;
+    return false;
+}
+ll dfs(int u, int t, ll f) {
+    if (u == t) return f;
+    ll r = f;
+    for (int &i = ptr[u]; i < SZ(g[u]); i++) {
+        const int j = g[u][i];
+        auto [v, c] = e[j];
+        if (lev[v] == lev[u] + 1 && c > 0) {
+            auto a = dfs(v, t, min(c, r));
+            e[j].cap -= a;
+            e[j^1].cap += a;
+            r -= a;
+            if (!r) return f;
+        }
+    }
+    return f-r;
+}
+ll maxFlow(int s, int t) {
+    ll res = 0;
+    while (bfs(s, t)) {
+        ptr.assign(n+2, 0);
+        res += dfs(s, t, 4e18);
+    }
+    return res;
 }
 int main() {
     cin.tie(nullptr)->sync_with_stdio(false);
 
-    cin >> n >> k;
-    F0R(i, n) cin >> a[i];
-    ll lo = 1, hi = 1e15;
-    while (lo < hi) {
-        ll mi = (lo+hi)/2;
-        if (ok(mi)) hi = mi;
-        else lo = mi+1;
+    cin >> n >> m;
+    rep(m) {
+        int a, b, c;
+        cin >> a >> b >> c;
+        a--, b--;
+        ae(a, b, c);
     }
-    cout << lo << '\n';
+    int s = n, t = n+1;
+    ae(s, 0, 4e18);
+    ae(n-1, t, 4e18);
+    cout << maxFlow(s, t) << '\n';
     return 0;
 }
+

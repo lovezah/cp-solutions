@@ -1,3 +1,4 @@
+#pragma GCC optimize(2)
 #include <bits/stdc++.h>
 using namespace std;
 namespace zah233 {
@@ -11,7 +12,7 @@ namespace zah233 {
 #define RALL(x) (x).rbegin(), (x).rend()
 #define SZ(x) (int((x).size()))
 #define REV(x) reverse(ALL(x))
-#define	UNIQUE(x) sort(ALL(x)), x.erase(unique(ALL(x)), x.end())
+#define UNIQUE(x) sort(ALL(x)), x.erase(unique(ALL(x)), x.end())
 #define mask(x) (1 << (x))
 #define fi first
 #define se second
@@ -55,37 +56,77 @@ template<class T> bool ckmin(T &u, T v) { return v < u ? u = v, true : false; }
 #define trav(a, v) for (auto &a : v)
 #define each(a, b, v) for (auto &&[a, b] : v)
 #define each3(a, b, c, v) for (auto &&[a, b, c] : v)
+
+const char nl = '\n';
+const int mod1 = int(1e9)+7;
+const int mod9 = 998244353;
 } // namespace zah233
 using namespace zah233;
 
-const int N = 200010;
-int n, k, a[N];
-int ok(ll m) {
-    int c = 1;
-    ll cur = 0;
-    F0R(i, n) {
-        if (a[i] > m) return 0;
-        if (cur + a[i] <= m) {
-            cur += a[i];
-        } else {
-            cur = 0;
-            c++;
-            i--;
+int cnt[500010];
+struct AC {
+    struct node {
+        AR<int, 26> to; int lk;
+    };
+    VI que;
+    V<node> d{{}};
+    int ins(str s) {
+        int u = 0;
+        trav(C, s) {
+            int c = C-'a';
+            if (!d[u].to[c]) d[u].to[c] = SZ(d), d.eb();
+            u = d[u].to[c];
+        }
+        return u;
+    }
+    void ac() {
+        d[0].lk = -1;
+        queue<int> q; q.push(0);
+        while (!q.empty()) {
+            int u = q.ft; q.pop();
+            if (u) que.pb(u);
+            F0R(c, 26) if (d[u].to[c]) {
+                int v = d[u].to[c];
+                d[v].lk = ~d[u].lk ? d[d[u].lk].to[c] : 0;
+                q.push(v);
+            }
+            if (u) F0R(c, 26) if (!d[u].to[c]) {
+                d[u].to[c] = d[d[u].lk].to[c];
+            }
         }
     }
-    return c <= k;
-}
+    void prec() {
+        while (!que.empty()) {
+            int u = que.bk; que.pop_back();
+            cnt[d[u].lk] += cnt[u];
+        }
+    }
+};
+str s;
+int n;
+int id[500010];
 int main() {
     cin.tie(nullptr)->sync_with_stdio(false);
 
-    cin >> n >> k;
-    F0R(i, n) cin >> a[i];
-    ll lo = 1, hi = 1e15;
-    while (lo < hi) {
-        ll mi = (lo+hi)/2;
-        if (ok(mi)) hi = mi;
-        else lo = mi+1;
+    AC ac;
+    cin >> s;
+
+    cin >> n;
+    F0R(i, n) {
+        str t; cin >> t;
+        id[i] = ac.ins(t);
     }
-    cout << lo << '\n';
+    ac.ac();
+    int u = 0;
+    F0R(i, SZ(s)) {
+        int c = s[i]-'a';
+        u = ac.d[u].to[c];
+        cnt[u]++;
+    }
+    ac.prec();
+    F0R(i, n) {
+        cout << cnt[id[i]] << nl;
+    }
     return 0;
 }
+

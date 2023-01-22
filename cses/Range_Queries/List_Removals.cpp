@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-namespace zah233 {
+namespace zah339 {
 #ifdef LOCAL
 #include "E:\cp-Library\debug.h"
 #else
@@ -15,8 +15,6 @@ namespace zah233 {
 #define mask(x) (1 << (x))
 #define fi first
 #define se second
-#define ft front()
-#define bk back()
 #define pb push_back
 #define eb emplace_back 
 #define mp make_pair
@@ -55,37 +53,34 @@ template<class T> bool ckmin(T &u, T v) { return v < u ? u = v, true : false; }
 #define trav(a, v) for (auto &a : v)
 #define each(a, b, v) for (auto &&[a, b] : v)
 #define each3(a, b, c, v) for (auto &&[a, b, c] : v)
-} // namespace zah233
-using namespace zah233;
+} // namespace zah339
+using namespace zah339;
 
 const int N = 200010;
-int n, k, a[N];
-int ok(ll m) {
-    int c = 1;
-    ll cur = 0;
-    F0R(i, n) {
-        if (a[i] > m) return 0;
-        if (cur + a[i] <= m) {
-            cur += a[i];
-        } else {
-            cur = 0;
-            c++;
-            i--;
-        }
-    }
-    return c <= k;
-}
+int n, a[N];
+
+#include <ext/pb_ds/assoc_container.hpp>
+using namespace __gnu_pbds;
+
+template<typename T>
+using ordered_set = tree<T, null_type, std::less<T>, rb_tree_tag, tree_order_statistics_node_update>;
+// find_by_order(x) : gives the x-th element in sorted order, if x = 2, gives the third smallest value;
+// order_of_key(x) : return the count of element < x
+
 int main() {
     cin.tie(nullptr)->sync_with_stdio(false);
 
-    cin >> n >> k;
-    F0R(i, n) cin >> a[i];
-    ll lo = 1, hi = 1e15;
-    while (lo < hi) {
-        ll mi = (lo+hi)/2;
-        if (ok(mi)) hi = mi;
-        else lo = mi+1;
+    cin >> n;
+    F0R(i, n) cin >> a[i+1];
+    ordered_set<int> s;
+    F0R(i, n) s.ins(i+1);
+    F0R(i, n) {
+        int p; cin >> p;
+        int ind = *s.find_by_order(p-1);
+        cout << a[ind] << ' ';
+        s.erase(ind);
     }
-    cout << lo << '\n';
+    
     return 0;
 }
+

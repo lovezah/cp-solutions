@@ -1,12 +1,12 @@
 #include <bits/stdc++.h>
 using namespace std;
-namespace zah233 {
+namespace zah339 {
 #ifdef LOCAL
 #include "E:\cp-Library\debug.h"
 #else
 #define dbg(...)
 #endif
-
+ 
 #define ALL(x) (x).begin(), (x).end() 
 #define RALL(x) (x).rbegin(), (x).rend()
 #define SZ(x) (int((x).size()))
@@ -15,15 +15,13 @@ namespace zah233 {
 #define mask(x) (1 << (x))
 #define fi first
 #define se second
-#define ft front()
-#define bk back()
 #define pb push_back
 #define eb emplace_back 
 #define mp make_pair
 #define ins insert
 #define lb lower_bound
 #define ub upper_bound
-
+ 
 template<class T>
 using V = std::vector<T>;
 template<class T, size_t sz>
@@ -38,15 +36,15 @@ using VL = V<ll>;
 using VS = V<str>;
 using VB = V<bool>;
 using VPI = V<pi>;
-
+ 
 std::mt19937 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 #define uid(a, b) uniform_int_distribution<int>(a, b)(rng)
-
+ 
 template<class T> using pq = std::priority_queue<T>;
 template<class T> using pqg = std::priority_queue<T, std::vector<T>, std::greater<T>>;
 template<class T> bool ckmax(T &u, T v) { return v > u ? u = v, true : false; }
 template<class T> bool ckmin(T &u, T v) { return v < u ? u = v, true : false; }
-
+ 
 #define FOR(i, a, n) for (int i = (a); i < (n); i++)
 #define F0R(i, n) FOR(i, 0, n)
 #define FORd(i, a, n) for (int i = (n) - 1; i >= (a); i--)
@@ -55,37 +53,33 @@ template<class T> bool ckmin(T &u, T v) { return v < u ? u = v, true : false; }
 #define trav(a, v) for (auto &a : v)
 #define each(a, b, v) for (auto &&[a, b] : v)
 #define each3(a, b, c, v) for (auto &&[a, b, c] : v)
-} // namespace zah233
-using namespace zah233;
-
-const int N = 200010;
-int n, k, a[N];
-int ok(ll m) {
-    int c = 1;
-    ll cur = 0;
-    F0R(i, n) {
-        if (a[i] > m) return 0;
-        if (cur + a[i] <= m) {
-            cur += a[i];
-        } else {
-            cur = 0;
-            c++;
-            i--;
-        }
+} // namespace zah339
+using namespace zah339;
+ 
+const int N = 200010, MX = 1<<18;
+int n, q;
+int a[N];
+ll seg[MX*2];
+ll query(int lo, int hi) {
+    ll res = 0;
+    for (int l = lo+MX, r = hi+MX; l < r; l/=2, r/=2) {
+        if (l&1) res ^= seg[l++]; 
+        if (r&1) res ^= seg[--r];
     }
-    return c <= k;
+    return res;
 }
 int main() {
     cin.tie(nullptr)->sync_with_stdio(false);
-
-    cin >> n >> k;
+ 
+    cin >> n >> q;
     F0R(i, n) cin >> a[i];
-    ll lo = 1, hi = 1e15;
-    while (lo < hi) {
-        ll mi = (lo+hi)/2;
-        if (ok(mi)) hi = mi;
-        else lo = mi+1;
+    F0R(i, n) seg[i+MX] = a[i];
+    FORd(i, 1, MX) seg[i] = seg[i*2]^seg[i*2+1];
+    rep(q) {
+        int a, b; cin >> a >> b;
+        a--;
+        cout << query(a, b) << '\n';
     }
-    cout << lo << '\n';
+    
     return 0;
 }

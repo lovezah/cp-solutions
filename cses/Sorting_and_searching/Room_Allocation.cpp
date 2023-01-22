@@ -59,33 +59,44 @@ template<class T> bool ckmin(T &u, T v) { return v < u ? u = v, true : false; }
 using namespace zah233;
 
 const int N = 200010;
-int n, k, a[N];
-int ok(ll m) {
-    int c = 1;
-    ll cur = 0;
-    F0R(i, n) {
-        if (a[i] > m) return 0;
-        if (cur + a[i] <= m) {
-            cur += a[i];
-        } else {
-            cur = 0;
-            c++;
-            i--;
-        }
-    }
-    return c <= k;
-}
+int n, ans[N], mx;
+AR<int, 3> a[N];
+set<pi> s;
+set<int> mex;
+
 int main() {
     cin.tie(nullptr)->sync_with_stdio(false);
 
-    cin >> n >> k;
-    F0R(i, n) cin >> a[i];
-    ll lo = 1, hi = 1e15;
-    while (lo < hi) {
-        ll mi = (lo+hi)/2;
-        if (ok(mi)) hi = mi;
-        else lo = mi+1;
+    cin >> n;
+    F0R(i, n) {
+        int l, r; cin >> l >> r;
+        a[i] = {l, r, i};
     }
-    cout << lo << '\n';
+    F0R(i, n) mex.ins(i+1);
+    sort(a, a+n);
+
+    F0R(j, n) {
+        auto [l, r, i] = a[j];
+        int v;
+        if (s.empty() || (*s.begin()).fi >= l) {
+            v = *mex.begin();
+            mex.erase(v);
+        } else {
+            if ((*s.begin()).fi < l) {
+                v = (*s.begin()).se;
+                s.erase(s.begin());
+            }
+        }
+        while (SZ(s) && (*s.begin()).fi < l) {
+            mex.ins((*s.begin()).se);
+            s.erase(s.begin());
+        }
+        s.ins({r, v});
+        ans[i] = v;
+        ckmax(mx, ans[i]);
+    }
+    cout << mx << '\n';
+    F0R(i, n) cout << ans[i] << ' ';
     return 0;
 }
+

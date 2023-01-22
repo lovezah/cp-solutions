@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-namespace zah233 {
+namespace zah339 {
 #ifdef LOCAL
 #include "E:\cp-Library\debug.h"
 #else
@@ -15,8 +15,6 @@ namespace zah233 {
 #define mask(x) (1 << (x))
 #define fi first
 #define se second
-#define ft front()
-#define bk back()
 #define pb push_back
 #define eb emplace_back 
 #define mp make_pair
@@ -55,37 +53,61 @@ template<class T> bool ckmin(T &u, T v) { return v < u ? u = v, true : false; }
 #define trav(a, v) for (auto &a : v)
 #define each(a, b, v) for (auto &&[a, b] : v)
 #define each3(a, b, c, v) for (auto &&[a, b, c] : v)
-} // namespace zah233
-using namespace zah233;
+} // namespace zah339
+using namespace zah339;
 
-const int N = 200010;
-int n, k, a[N];
-int ok(ll m) {
-    int c = 1;
-    ll cur = 0;
-    F0R(i, n) {
-        if (a[i] > m) return 0;
-        if (cur + a[i] <= m) {
-            cur += a[i];
-        } else {
-            cur = 0;
-            c++;
-            i--;
-        }
+namespace hashing{
+    std::mt19937 rng(std::chrono::steady_clock::now().time_since_epoch().count());
+    const int MOD = int(1e9)+7;
+    using H = std::array<int, 2>;
+    H makeH(char c) { return {c, c}; }
+    uniform_int_distribution<int> BDIST(0.1*MOD, 0.9*MOD);
+    const H base{BDIST(rng), BDIST(rng)};
+    H operator+ (H l, H r) {
+        for (int i = 0; i < 2; i++) if ((l[i] += r[i]) >= MOD) l[i] -= MOD;
+        return l;
     }
-    return c <= k;
-}
+    H operator- (H l, H r) {
+        for (int i = 0; i < 2; i++) if ((l[i] -= r[i]) < 0) l[i] += MOD;
+        return l;
+    }
+    H operator* (H l, H r) {
+        for (int i = 0; i < 2; i++) l[i] = int64_t(l[i]) * r[i] % MOD;
+        return l;
+    }
+    // H& operator+= (H& l, H r) { return l = l+r; }
+    // H& operator-= (H& l, H r) { return l = l-r; }
+    // H& operator*= (H& l, H r) { return l = l*r; }
+
+    struct hashRange {
+        std::string s;
+        std::vector<H> cum {{}}, pows{{1, 1}};
+        void add(char c) { s += c; cum.push_back(base*cum.back()+makeH(c)); }
+        void add(std::string t) { for (auto ch : t) add(ch); }
+        void extend(int len) { 
+            while (int(pows.size()) <= len)
+                pows.push_back(base*pows.back());
+        }
+        H hash(int l, int r) {
+            int len = r - l; extend(len);
+            return cum[r] - cum[l] * pows[len];
+        }
+    };
+} // namespace hashing
+using namespace hashing;
+
 int main() {
     cin.tie(nullptr)->sync_with_stdio(false);
 
-    cin >> n >> k;
-    F0R(i, n) cin >> a[i];
-    ll lo = 1, hi = 1e15;
-    while (lo < hi) {
-        ll mi = (lo+hi)/2;
-        if (ok(mi)) hi = mi;
-        else lo = mi+1;
+    str s;
+    cin >> s; int n = SZ(s);
+    hashRange hasher;
+    hasher.add(s);
+    VI ans;
+    FOR(i, 1, n) {
+        if (hasher.hash(0, i) == hasher.hash(n-i, n)) ans.pb(i);
     }
-    cout << lo << '\n';
+    trav(a, ans) cout << a << ' ';
     return 0;
 }
+

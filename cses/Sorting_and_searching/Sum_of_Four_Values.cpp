@@ -58,34 +58,35 @@ template<class T> bool ckmin(T &u, T v) { return v < u ? u = v, true : false; }
 } // namespace zah233
 using namespace zah233;
 
-const int N = 200010;
-int n, k, a[N];
-int ok(ll m) {
-    int c = 1;
-    ll cur = 0;
-    F0R(i, n) {
-        if (a[i] > m) return 0;
-        if (cur + a[i] <= m) {
-            cur += a[i];
-        } else {
-            cur = 0;
-            c++;
-            i--;
-        }
-    }
-    return c <= k;
-}
+const int N = 1010;
+int n, v;
+pi a[N];
+
 int main() {
     cin.tie(nullptr)->sync_with_stdio(false);
 
-    cin >> n >> k;
-    F0R(i, n) cin >> a[i];
-    ll lo = 1, hi = 1e15;
-    while (lo < hi) {
-        ll mi = (lo+hi)/2;
-        if (ok(mi)) hi = mi;
-        else lo = mi+1;
+    cin >> n >> v;
+    F0R(i, n) {
+        int x; cin >> x;
+        a[i] = {x, i+1};
     }
-    cout << lo << '\n';
+    sort(a, a+n);
+    F0R(i, n) FOR(j, i+1, n) {
+        ll s = a[i].fi+a[j].fi;
+        int l = j+1, r = n-1;
+        while (l < r) {
+            ll ss = s+a[l].fi+a[r].fi;
+            if (ss == v) {
+                cout << a[i].se << ' ' << a[j].se << ' ' << a[l].se << ' ' << a[r].se << '\n';
+                exit(0);
+            } else if (ss > v) {
+                r--;
+            } else {
+                l++;
+            }
+        }
+    }
+    cout << "IMPOSSIBLE\n";
     return 0;
 }
+

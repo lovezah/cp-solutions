@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-namespace zah233 {
+namespace zah339 {
 #ifdef LOCAL
 #include "E:\cp-Library\debug.h"
 #else
@@ -15,8 +15,6 @@ namespace zah233 {
 #define mask(x) (1 << (x))
 #define fi first
 #define se second
-#define ft front()
-#define bk back()
 #define pb push_back
 #define eb emplace_back 
 #define mp make_pair
@@ -55,37 +53,48 @@ template<class T> bool ckmin(T &u, T v) { return v < u ? u = v, true : false; }
 #define trav(a, v) for (auto &a : v)
 #define each(a, b, v) for (auto &&[a, b] : v)
 #define each3(a, b, c, v) for (auto &&[a, b, c] : v)
-} // namespace zah233
-using namespace zah233;
+} // namespace zah339
+using namespace zah339;
 
-const int N = 200010;
-int n, k, a[N];
-int ok(ll m) {
-    int c = 1;
-    ll cur = 0;
-    F0R(i, n) {
-        if (a[i] > m) return 0;
-        if (cur + a[i] <= m) {
-            cur += a[i];
-        } else {
-            cur = 0;
-            c++;
-            i--;
-        }
+const int MX = 1<<18;
+int seg[MX*2];
+int n, m;
+int cmb(int a, int b) { return max(a, b); }
+void pull(int p) { seg[p] = cmb(seg[p*2], seg[p*2+1]); }
+int query(int lo, int hi) {
+    int res = 0;
+    for (int l = lo+MX, r = hi+MX; l < r; l/=2, r/=2) {
+        if (l&1) ckmax(res, seg[l++]);
+        if (r&1) ckmax(res, seg[--r]);
     }
-    return c <= k;
+    return res;
+}
+void upd(int p, int v) {
+    seg[p+MX] -= v;
+    for (int i = (p+MX)/2; i; i/=2) pull(i);
+}
+int qry(int p, int l, int r, int ql, int qr, int v) {
+    if (qr <= l || r <= ql || seg[p] < v) return -1;
+    if (r-l == 1) return l;
+    int m = (l+r)/2;
+    int res = qry(p*2, l, m, ql, qr, v);
+    return (res != -1 ? res : qry(p*2+1, m, r, ql, qr, v));
 }
 int main() {
     cin.tie(nullptr)->sync_with_stdio(false);
 
-    cin >> n >> k;
-    F0R(i, n) cin >> a[i];
-    ll lo = 1, hi = 1e15;
-    while (lo < hi) {
-        ll mi = (lo+hi)/2;
-        if (ok(mi)) hi = mi;
-        else lo = mi+1;
+    cin >> n >> m;
+    F0R(i, n) {
+        int x; cin >> x;
+        seg[i+MX] = x;
     }
-    cout << lo << '\n';
+    FORd(i, 1, MX) pull(i);
+    F0R(i, m) {
+        int r; cin >> r;
+        int pos = qry(1, 0, MX, 0, n, r);
+        cout << pos+1 << ' ';
+        if (~pos) upd(pos, r);
+    }
     return 0;
 }
+

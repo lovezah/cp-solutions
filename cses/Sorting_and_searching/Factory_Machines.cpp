@@ -59,33 +59,29 @@ template<class T> bool ckmin(T &u, T v) { return v < u ? u = v, true : false; }
 using namespace zah233;
 
 const int N = 200010;
-int n, k, a[N];
+int n, t, a[N];
+
 int ok(ll m) {
-    int c = 1;
-    ll cur = 0;
+    ll c = 0;
     F0R(i, n) {
-        if (a[i] > m) return 0;
-        if (cur + a[i] <= m) {
-            cur += a[i];
-        } else {
-            cur = 0;
-            c++;
-            i--;
-        }
+        c += m/a[i];
+        if (c >= t) return 1;
     }
-    return c <= k;
+    return 0;
 }
 int main() {
     cin.tie(nullptr)->sync_with_stdio(false);
 
-    cin >> n >> k;
+    cin >> n >> t;
     F0R(i, n) cin >> a[i];
-    ll lo = 1, hi = 1e15;
+
+    ll lo = 1, hi = 1e18;
     while (lo < hi) {
-        ll mi = (lo+hi)/2;
+        ll mi = lo + (hi - lo) / 2;
         if (ok(mi)) hi = mi;
         else lo = mi+1;
     }
     cout << lo << '\n';
     return 0;
 }
+
